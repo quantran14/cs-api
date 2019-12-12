@@ -17,7 +17,10 @@ def upload_images(request):
     file_saving.save(img.name, img)
 
 
+
+
 class Image(APIView):
+    print(1)
 
     def post(self, request, *args, **kwargs):
         upload_images(request=request)

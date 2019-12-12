@@ -12,4 +12,5 @@ import detectron2
 from detectron2.utils.logger import setup_logger
 setup_logger()
 
-print(1)
+class classname(object):
+    pass
