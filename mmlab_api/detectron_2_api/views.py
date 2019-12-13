@@ -1,3 +1,4 @@
+import base64
 import os
 import time
 import cv2
@@ -88,7 +89,7 @@ def return_request(cfg, data):
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
                 "bounding box": boxes[i].astype(int),
-                "mask": masks[i]
+                "mask": base64.b64encode(masks[i])
             })
 
     return contents
@@ -141,3 +142,8 @@ class Image(APIView):
         print({"success": contents})
 
         return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
+
+
+data = np.load("test.npy")
+encoded = base64.b64encode(data)
+print data
