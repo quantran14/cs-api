@@ -87,7 +87,7 @@ def return_request(cfg, data):
             contents.append({
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
-                "bounding box": boxes[i],
+                "bounding box": boxes[i].astype(int),
                 # TODO: convert mask
                 # "mask": masks[i].item()
             })
@@ -139,6 +139,6 @@ class Image(APIView):
         print('make predictions time:', time.time()-start)
 
         contents = return_request(cfg, data)
-        print({"success": contents})
+        # print({"success": contents})
 
         return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
