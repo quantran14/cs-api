@@ -69,14 +69,14 @@ def return_request(cfg, data):
 
         boxes = instances_fields.get(
             'pred_boxes') if 'pred_boxes' in instances_fields else None
-
-        boxes = boxes.tensor.numpy().astype(int)
+        boxes = boxes.tensor.numpy()
         scores = instances_fields.get(
             'scores') if 'scores' in instances_fields else None
         classes = instances_fields.get(
             'pred_classes') if 'pred_classes' in instances_fields else None
         masks = instances_fields.get(
             'pred_masks') if 'pred_masks' in instances_fields else None
+        masks = masks.numpy().astype(int)
         # labels = _create_text_labels(
         #     classes, scores, metadata)
 
@@ -88,8 +88,7 @@ def return_request(cfg, data):
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
                 "bounding box": boxes[i].astype(int),
-                # TODO: convert mask
-                # "mask": masks[i].item()
+                "mask": masks[i]
             })
 
     return contents
