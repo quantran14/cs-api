@@ -3,7 +3,9 @@ from detectron2.config import get_cfg
 
 
 def setup_cfg_for_predict(config_file, weights_file=None, confidence_threshold=None, cpu=False):
-    # load config from file and command-line arguments
+    """
+        load config from file. These model train/val using COCO dataset 2017
+    """
     cfg = get_cfg()
     cfg.merge_from_file(config_file)
 
@@ -19,10 +21,11 @@ def setup_cfg_for_predict(config_file, weights_file=None, confidence_threshold=N
     if cpu or not torch.cuda.is_available():
         cfg.MODEL.DEVICE = "cpu"
 
+    # print('cfg.MODEL: ', cfg.MODEL)
     cfg.freeze()
 
     return cfg
 
 
-def set_up_for_train_custom():
+def setup_for_train_custom():
     pass
