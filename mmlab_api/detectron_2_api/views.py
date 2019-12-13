@@ -139,11 +139,6 @@ class Image(APIView):
         print('make predictions time:', time.time()-start)
 
         contents = return_request(cfg, data)
-        print({"success": contents})
+        # print({"success": contents})
 
         return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
-
-
-data = np.load("test.npy")
-encoded = base64.b64encode(data)
-print data
