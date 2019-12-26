@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'detectron_2_api'
+    'detectron_2_api',
+    'insightface_api'
 ]
 
 MIDDLEWARE = [
