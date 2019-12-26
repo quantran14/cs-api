@@ -85,7 +85,8 @@ class Image(APIView):
         model = configs.set_models(request.data['data']['model'])
 
         param = request.data['data']['parameter']
-        # model.prepare(ctx_id=1, nms=param['nms_thresh'])
+        model.prepare(ctx_id=1, nms=param['nms_thresh'])
+        
         print('load model time:', time.time()-start)
 
         # get image
