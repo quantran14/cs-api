@@ -34,12 +34,12 @@ def upload_images(request):
     """
 
     img = request.data.get('image')
-    file_saving = FileSystemStorage(settings.MEDIA_ROOT, settings.MEDIA_URL)
+    file_saving = FileSystemStorage(settings.MEDIA_ROOT_DETECTRON2, settings.MEDIA_URL)
     file_saving.save(img.name, img)
-    image = cv2.imread(os.path.join(settings.MEDIA_ROOT, img.name))
+    image = cv2.imread(os.path.join(settings.MEDIA_ROOT_DETECTRON2, img.name))
 
     data = {
-        'image path': settings.MEDIA_ROOT,
+        'image path': settings.MEDIA_ROOT_DETECTRON2,
         'image': image,
     }
 

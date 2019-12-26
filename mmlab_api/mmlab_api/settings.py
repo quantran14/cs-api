@@ -125,4 +125,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'detectron_2_api/media/')
+MEDIA_ROOT_DETECTRON2 = os.path.join(BASE_DIR, 'detectron_2_api/media/')
