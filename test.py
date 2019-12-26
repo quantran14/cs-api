@@ -12,7 +12,7 @@ image_read = image.read()
 encoded = base64.encodestring(image_read)
 encoded_string = encoded.decode('utf-8')
 
-model_name = ''
+model_name = 'retinaface_r50_v1'
 
 url_feature = 'http://192.168.20.170:3000/insightface/image/'
 data = {'data': {

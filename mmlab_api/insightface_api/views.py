@@ -44,7 +44,7 @@ def upload_images(request):
     return data
 
 
-def return_request(cfg, data):
+def return_request(data):
     """
         Arguments:
             data
