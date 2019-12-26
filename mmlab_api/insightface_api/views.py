@@ -86,7 +86,7 @@ class Image(APIView):
 
         param = request.data['data']['parameter']
         model.prepare(ctx_id=1, nms=param['nms_thresh'])
-        
+
         print('load model time:', time.time()-start)
 
         # get image
@@ -105,6 +105,5 @@ class Image(APIView):
         print('make predictions time:', time.time()-start)
 
         contents = return_request(data)
-        print({"success": contents})
 
-        return Response({"data": {}}, status=status.HTTP_202_ACCEPTED)
+        return Response({"data": contents}, status=status.HTTP_202_ACCEPTED)

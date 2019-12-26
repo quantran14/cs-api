@@ -26,7 +26,7 @@ headers = {'Content-type': 'application/json'}
 data_json = json.dumps(data)
 response = requests.post(url_feature, data=data_json, headers=headers)
 
-print(response)
+print(response.json())
 
 
 # image = open('deer.gif', 'rb')
