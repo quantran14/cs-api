@@ -88,7 +88,7 @@ def return_request(cfg, data):
             contents.append({
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
-                "bounding box": boxes[i].astype(int),
+                "bounding_box": boxes[i].astype(int),
                 "mask": base64.b64encode(masks[i])
             })
 
