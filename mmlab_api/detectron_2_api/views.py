@@ -52,7 +52,7 @@ def return_request(cfg, data):
         dist = {
             "confidence_score": predict probability,
             "class": class id in range[0,num_categories],
-            "bounding box": [xmin, ymin, xmax, ymax],
+            "bounding_box": [xmin, ymin, xmax, ymax],
             "mask": a matrix (HxW) masks detected instance
         }   
     """
@@ -88,7 +88,7 @@ def return_request(cfg, data):
             contents.append({
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
-                "bounding box": boxes[i].astype(int),
+                "bounding_box": boxes[i].astype(int),
                 "mask": base64.b64encode(masks[i])
             })
 
