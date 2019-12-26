@@ -51,8 +51,8 @@ def return_request(data):
         Return list[dist1, dist2, ...]:
             dist = {
                 "confidence_score": predict probability,
-                "class": face
-                "bounding box": [xmin, ymin, xmax, ymax],
+                "class": face,
+                "bounding_box": [xmin, ymin, xmax, ymax],
             }   
     """
 
@@ -67,7 +67,7 @@ def return_request(data):
             contents.append({
                 "confidence_score": bbox[4],
                 "class": 'face',
-                "bounding box": [bbox[0], bbox[1], bbox[2], bbox[3]]
+                "bounding_box": [bbox[0], bbox[1], bbox[2], bbox[3]]
             })
     except:
         pass

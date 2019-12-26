@@ -27,11 +27,3 @@ data_json = json.dumps(data)
 response = requests.post(url_feature, data=data_json, headers=headers)
 
 print(response.json())
-
-
-# image = open('deer.gif', 'rb')
-# image_read = image.read()
-# image_64_encode = base64.encodestring(image_read)
-# image_64_decode = base64.decodestring(image_64_encode)
-# image_result = open('deer_decode.gif', 'wb')
-# image_result.write(image_64_decode)
