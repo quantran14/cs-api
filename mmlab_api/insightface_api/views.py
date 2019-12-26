@@ -2,20 +2,16 @@ import base64
 import os
 import time
 import cv2
-import torch
 
 from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-
-from . import (
-    configs,
-)
+from . import configs
+from .detect import InsightFaceDetector
 
 
 # Create your views here.
@@ -38,7 +34,8 @@ def upload_images(request):
     with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
         image_result.write(img_decoded)
 
-    image = cv2.imread(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
+    image = cv2.imread(os.path.join(
+        settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
 
     data = {
         'image': image,
@@ -49,27 +46,32 @@ def upload_images(request):
 
 def return_request(cfg, data):
     """
-        return list[dist] with
-        dist = {
-            "confidence_score": predict probability,
-            "class": face
-            "bounding box": [xmin, ymin, xmax, ymax],
-        }   
+        Arguments:
+            data
+        Return list[dist1, dist2, ...]:
+            dist = {
+                "confidence_score": predict probability,
+                "class": face
+                "bounding box": [xmin, ymin, xmax, ymax],
+            }   
     """
 
     contents = []
 
-    predictions = data['predictions']
+    try:
+        bboxs = data['predictions']
 
-    num_predicted = len(predictions)
-    # print(num_predicted)
+        num_bbox = len(bboxs)
+        print(num_bbox)
 
-    for i in range(0, num_predicted):
-        contents.append({
-            "confidence_score": 1,
-            "class": 'face',
-            "bounding box": 1
-        })
+        for bbox in bboxs:
+            contents.append({
+                "confidence_score": bbox[4],
+                "class": 'face',
+                "bounding box": [bbox[0], bbox[1], bbox[2], bbox[3]]
+            })
+    except:
+        pass
 
     return contents
 
@@ -82,19 +84,26 @@ class Image(APIView):
 
         start = time.time()
         model = configs.set_models(request.data['data']['model'])
-        cfg = ''
+
+        param = request.data['data']['parameter']
+        model.prepare(ctx_id=1, nms=param['nms_thresh'])
         print('load model time:', time.time()-start)
 
         # get image
         data = upload_images(request=request)
 
+        # set some parameter
+        data.update({
+            'nms_thresh': param['nms_thresh'],
+            'thresh': param['thresh']
+        })
+
         # detected image
         start = time.time()
-        detected = Predict(cfg)
-        data = predict.make_prediction(data)
+        data = InsightFaceDetector(model, data)
         print('make predictions time:', time.time()-start)
 
-        contents = return_request(cfg, data)
+        contents = return_request(data)
         print({"success": contents})
 
         return Response({"data": {}}, status=status.HTTP_202_ACCEPTED)

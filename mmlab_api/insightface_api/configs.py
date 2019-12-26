@@ -1,5 +1,7 @@
 import insightface
 
+
+print('[INFO]Create model ...')
 arcface_r100_v1 = insightface.model_zoo.get_model('arcface_r100_v1')
 retinaface_r50_v1 = insightface.model_zoo.get_model('retinaface_r50_v1')
 retinaface_mnet025_v1 = insightface.model_zoo.get_model(
@@ -21,6 +23,6 @@ def set_models(names):
     """
         Return model according to names
     """
-    print('Loading model ... weight ... v.v ...')
+    print('Loading pretrain model ... v.v ...')
 
     return _models[names]
