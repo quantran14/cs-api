@@ -58,19 +58,19 @@ def return_request(data):
 
     contents = []
 
-    # try:
-    bboxs = data['predictions']
-    num_bbox = len(bboxs)
-    print(num_bbox)
+    try:
+        bboxs = data['predictions']
+        num_bbox = len(bboxs)
+        print(num_bbox)
 
-    for bbox in bboxs:
-        contents.append({
-            "confidence_score": bbox[4],
-            "class": 'face',
-            "bounding box": [bbox[0], bbox[1], bbox[2], bbox[3]]
-        })
-    # except:
-    #     pass
+        for bbox in bboxs:
+            contents.append({
+                "confidence_score": bbox[4],
+                "class": 'face',
+                "bounding box": [bbox[0], bbox[1], bbox[2], bbox[3]]
+            })
+    except:
+        pass
 
     return contents
 
@@ -99,7 +99,8 @@ class Image(APIView):
 
         # detected image
         start = time.time()
-        data = InsightFaceDetector(model, data)
+        detector = InsightFaceDetector(model)
+        data = detector.make_prediction(data)
         print('make predictions time:', time.time()-start)
 
         contents = return_request(data)

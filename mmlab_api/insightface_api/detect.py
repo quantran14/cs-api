@@ -4,10 +4,9 @@ class InsightFaceDetector(object):
         preform prediction
     """
 
-    def __init__(self, model, data):
+    def __init__(self, model):
         super().__init__()
         self.model = model
-        self.make_prediction(data)
 
     def make_prediction(self, data):
         image = data['image']
