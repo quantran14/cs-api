@@ -14,7 +14,7 @@ encoded_string = encoded.decode('utf-8')
 
 model_name = ''
 
-url_feature = 'http://127.0.0.1:8000/insightfaceapi/image/'
+url_feature = 'http://192.168.20.170:3000/insightface/image/'
 data = {'data': {
         'model': model_name,
         'image_encoded': encoded_string,
@@ -25,6 +25,8 @@ data = {'data': {
 headers = {'Content-type': 'application/json'}
 data_json = json.dumps(data)
 response = requests.post(url_feature, data=data_json, headers=headers)
+
+print(response)
 
 
 # image = open('deer.gif', 'rb')
