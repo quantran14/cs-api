@@ -12,6 +12,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+
+from . import (
+    configs,
+)
+
+
 # Create your views here.
 
 
@@ -25,13 +31,16 @@ def upload_images(request):
             }
     """
 
-    img = request.data.get('image')
-    file_saving = FileSystemStorage(settings.MEDIA_ROOT, settings.MEDIA_URL)
-    file_saving.save(img.name, img)
-    image = cv2.imread(os.path.join(settings.MEDIA_ROOT, img.name))
+    img_encoded = request.data['data']['image_encoded']
+    img_decoded_string = img_encoded.encode()
+    img_decoded = base64.decodestring(img_decoded_string)
+
+    with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
+        image_result.write(img_decoded)
+
+    image = cv2.imread(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
 
     data = {
-        'image path': settings.MEDIA_ROOT,
         'image': image,
     }
 
@@ -43,94 +52,49 @@ def return_request(cfg, data):
         return list[dist] with
         dist = {
             "confidence_score": predict probability,
-            "class": class id in range[0,num_categories],
+            "class": face
             "bounding box": [xmin, ymin, xmax, ymax],
-            "mask": a matrix (HxW) masks detected instance
         }   
     """
 
     contents = []
 
     predictions = data['predictions']
-    if "panoptic_seg" in predictions:
-        pass
-    elif "sem_seg" in predictions:
-        pass
-    elif "instances" in predictions:
-        instances = predictions.get('instances')
-        instances_fields = instances.get_fields()
 
-        boxes = instances_fields.get(
-            'pred_boxes') if 'pred_boxes' in instances_fields else None
-        boxes = boxes.tensor.numpy()
-        scores = instances_fields.get(
-            'scores') if 'scores' in instances_fields else None
-        classes = instances_fields.get(
-            'pred_classes') if 'pred_classes' in instances_fields else None
-        masks = instances_fields.get(
-            'pred_masks') if 'pred_masks' in instances_fields else None
-        masks = masks.numpy().astype(int)
-        # labels = _create_text_labels(
-        #     classes, scores, metadata)
+    num_predicted = len(predictions)
+    # print(num_predicted)
 
-        num_predicted = len(instances)
-        # print(num_predicted)
-
-        for i in range(0, num_predicted):
-            contents.append({
-                "confidence_score": scores[i].item(),
-                "class": classes[i].item(),
-                "bounding box": boxes[i].astype(int),
-                "mask": base64.b64encode(masks[i])
-            })
+    for i in range(0, num_predicted):
+        contents.append({
+            "confidence_score": 1,
+            "class": 'face',
+            "bounding box": 1
+        })
 
     return contents
 
 
-# def _create_text_labels(classes, scores, class_names):
-#     """
-#     Args:
-#         classes (list[int] or None):
-#         scores (list[float] or None):
-#         class_names (list[str] or None):
-#     Returns:
-#         list[str] or None
-#     """
-#     labels = None
-#     if classes is not None and class_names is not None and len(class_names) > 1:
-#         labels = [class_names[i] for i in classes]
-#     if scores is not None:
-#         if labels is None:
-#             labels = ["{:.0f}%".format(s * 100) for s in scores]
-#         else:
-#             labels = ["{} {:.0f}%".format(l, s * 100)
-#                       for l, s in zip(labels, scores)]
-#     return labels
-
-
 class Image(APIView):
-    models = configs.set_cfg()
 
     def post(self, request, *args, **kwargs):
         # get model
-        print(request.data)
-        model = request.data.get('model')
+        # print(request.data)
 
         start = time.time()
-        cfg = alt_detectron2.setup_cfg_for_predict(
-            Image.models.get(model), weights_file=None, confidence_threshold=0.5, cpu=True)
+        model = configs.set_models(request.data['data']['model'])
+        cfg = ''
         print('load model time:', time.time()-start)
 
         # get image
         data = upload_images(request=request)
 
-        # predict image
+        # detected image
         start = time.time()
-        predict = Predict(cfg)
+        detected = Predict(cfg)
         data = predict.make_prediction(data)
         print('make predictions time:', time.time()-start)
 
         contents = return_request(cfg, data)
-        # print({"success": contents})
+        print({"success": contents})
 
-        return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
+        return Response({"data": {}}, status=status.HTTP_202_ACCEPTED)

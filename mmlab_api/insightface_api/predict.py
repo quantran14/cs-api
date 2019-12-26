@@ -1,4 +1,3 @@
-from detectron2.engine.defaults import DefaultPredictor
 
 
 class Predict (object):
@@ -8,7 +7,7 @@ class Predict (object):
 
     def __init__(self, cfg):
         super().__init__()
-        self.predictor = DefaultPredictor(cfg)
+        self.predictor = ''
 
     def make_prediction(self, data):
         image = data.get('image')
