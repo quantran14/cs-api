@@ -117,7 +117,7 @@ def return_request(cfg, data):
 
 
 class Image(APIView):
-    models = configs.set_cfg()
+    models = configs.set_models()
 
     def post(self, request, *args, **kwargs):
         # get model
