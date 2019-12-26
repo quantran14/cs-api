@@ -24,5 +24,7 @@ def set_models(names):
         Return model according to names
     """
     print('Loading pretrain model ... v.v ...')
+    model = _models[names]
+    model.prepare(ctx_id=1, nms=0.7)
 
-    return _models[names]
+    return model
