@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'detectron_2_api'
+    # 'detectron_2_api',
+    'insightface_api'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,4 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT_DETECTRON2 = os.path.join(BASE_DIR, 'detectron_2_api/media/')
+MEDIA_ROOT_INSIGHTFACE = os.path.join(BASE_DIR, 'insightface_api/media/')
