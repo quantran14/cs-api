@@ -8,7 +8,7 @@ class FaceNetFeatureExtractor(object):
         super().__init__()
         self.model = model
 
-    def make_prediction(self, data):
+    def make_extraction(self, data):
         image = data['image']
         features = self.model.predict(image)
         data.update({'features': features})

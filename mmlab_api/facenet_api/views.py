@@ -61,7 +61,7 @@ def return_request(data):
                 "bounding_box": [xmin, ymin, xmax, ymax],
             }   
     """
-    print('a  ', data['features'])
+    print('data['features']  ', data['features'])
     contents = []
 
     # try:
@@ -88,15 +88,17 @@ class Image(APIView):
 
         start = time.time()
         model = configs.set_models(request.data['data']['model'])
+        print('model: ', model)
         print('load model time:', time.time()-start)
 
         # get image
         data = upload_images(request=request)
+        print('data: ', data)
 
         # detected image
         start = time.time()
         detector = FaceNetFeatureExtractor(model)
-        data = detector.make_prediction(data)
+        data = detector.make_extraction(data)
         print('make predictions time:', time.time()-start)
 
         contents = return_request(data)
