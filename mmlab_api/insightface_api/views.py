@@ -30,7 +30,7 @@ def upload_images(request):
 
     img_encoded = request.data['data']['image_encoded']
     img_decoded_string = img_encoded.encode()
-    img_decoded = base64.decodestring(img_decoded_string)
+    img_decoded = base64.decodebytes(img_decoded_string)
 
     with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
         image_result.write(img_decoded)
@@ -102,6 +102,9 @@ class Image(APIView):
             'nms_thresh': param['nms_thresh'],
             'thresh': param['thresh']
         })
+
+        print('nms thresh: ', data['nms_thresh'])
+        print('thresh: ', data['thresh'])
 
         # detected image
         start = time.time()

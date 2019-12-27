@@ -9,7 +9,7 @@ PATH_IMG = 'face.jpg'
 
 image = open(PATH_IMG, 'rb')
 image_read = image.read()
-encoded = base64.encodestring(image_read)
+encoded = base64.encodebytes(image_read)
 encoded_string = encoded.decode('utf-8')
 
 model_name = 'retinaface_r50_v1'
@@ -19,11 +19,14 @@ data = {'data': {
         'model': model_name,
         'image_encoded': encoded_string,
         'parameter': {
-            'nms_thresh': 0.5,
-            'thresh': 0.5
+            'nms_thresh': 0.7,
+            'thresh': 0.7
         }}}
 headers = {'Content-type': 'application/json'}
 data_json = json.dumps(data)
 response = requests.post(url_feature, data=data_json, headers=headers)
 
-print(response.json())
+
+for bbox in response.json()['data']:
+    print(bbox)
+    print()
