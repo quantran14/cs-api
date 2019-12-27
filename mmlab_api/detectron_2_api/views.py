@@ -12,11 +12,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from detectron2.data import MetadataCatalog
+# from detectron2.data import MetadataCatalog
 
 from . import (
     configs,
-    alt_detectron2,
+    # alt_detectron2,
 )
 from .predict import Predict
 
@@ -125,8 +125,8 @@ class Image(APIView):
         model = request.data.get('model')
 
         start = time.time()
-        cfg = alt_detectron2.setup_cfg_for_predict(
-            Image.models.get(model), weights_file=None, confidence_threshold=0.5, cpu=True)
+        # cfg = alt_detectron2.setup_cfg_for_predict(
+        #     Image.models.get(model), weights_file=None, confidence_threshold=0.5, cpu=True)
         print('load model time:', time.time()-start)
 
         # get image
@@ -134,11 +134,11 @@ class Image(APIView):
 
         # predict image
         start = time.time()
-        predict = Predict(cfg)
-        data = predict.make_prediction(data)
+        # predict = Predict(cfg)
+        # data = predict.make_prediction(data)
         print('make predictions time:', time.time()-start)
 
-        contents = return_request(cfg, data)
+        # contents = return_request(cfg, data)
         # print({"success": contents})
 
-        return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
+        # return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
