@@ -11,7 +11,7 @@ class Predict (object):
         self.predictor = DefaultPredictor(cfg)
 
     def make_prediction(self, data):
-        image = data.['image']
+        image = data['image']
         predictions = self.predictor(image)
         data.update({'predictions': predictions})
 

@@ -86,8 +86,10 @@ class Image(APIView):
 
         param = request.data['data']['parameter']
         if torch.cuda.is_available():
+            print('torch.cuda.is_available(): ', torch.cuda.is_available())
             model.prepare(ctx_id=1, nms=param['nms_thresh'])
         else:
+            print('torch.cuda.is_available(): ', torch.cuda.is_available())
             model.prepare(ctx_id=-1, nms=param['nms_thresh'])
 
         print('load model time:', time.time()-start)
