@@ -1,10 +1,10 @@
-from keras.models import load_model
+import tensorflow
 
 
 print('[INFO]Create model for facenet ...')
 
-facenet_keras = load_model('./facenet_api/configs/facenet_keras.h5')
-print('facenet_keras: ', facenet_keras)
+facenet_keras = tensorflow.keras.models.load_model(
+    './facenet_api/configs/facenet_keras.h5')
 
 _models = {
     'facenet_keras': facenet_keras

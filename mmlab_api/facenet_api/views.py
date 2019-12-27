@@ -88,12 +88,10 @@ class Image(APIView):
 
         start = time.time()
         model = configs.set_models(request.data['data']['model'])
-        print('model: ', model)
         print('load model time:', time.time()-start)
 
         # get image
         data = upload_images(request=request)
-        print('data: ', data)
 
         # detected image
         start = time.time()
