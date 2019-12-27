@@ -61,21 +61,19 @@ def return_request(data):
                 "bounding_box": [xmin, ymin, xmax, ymax],
             }   
     """
-    print("data['features']  ", data['features'])
+
     contents = []
 
-    # try:
-    #     bboxs = data['predictions']
-    #     num_bbox = len(bboxs)
+    try:
+        features = data['features']
+        # num_feature = len(features)
 
-    #     for bbox in bboxs:
-    #         contents.append({
-    #             "confidence_score": bbox[4],
-    #             "class": 'face',
-    #             "bounding_box": [bbox[0], bbox[1], bbox[2], bbox[3]]
-    #         })
-    # except:
-    #     pass
+        for feature in features:
+            contents.append({
+                "feature": feature
+            })
+    except:
+        pass
 
     return contents
 
