@@ -4,6 +4,7 @@ import urllib.parse
 import requests
 import json
 
+
 PATH_IMG = 'face.jpg'
 
 
@@ -12,6 +13,7 @@ image_read = image.read()
 encoded = base64.encodebytes(image_read)
 encoded_string = encoded.decode('utf-8')
 
+# INSIGHTFACE ===============================================================
 model_name = 'retinaface_r50_v1'
 
 url_feature = 'http://192.168.20.170:3000/insightface/image/'
@@ -30,3 +32,18 @@ response = requests.post(url_feature, data=data_json, headers=headers)
 for bbox in response.json()['data']:
     print(bbox)
     print()
+
+
+# FACENET===============================================================
+model_name = 'facenet_keras'
+
+url_feature = 'http://192.168.20.170:3000/facenet/image/'
+data = {'data': {
+        'model': model_name,
+        'image_encoded': encoded_string
+        }}
+headers = {'Content-type': 'application/json'}
+data_json = json.dumps(data)
+response = requests.post(url_feature, data=data_json, headers=headers)
+
+print(response.json())
