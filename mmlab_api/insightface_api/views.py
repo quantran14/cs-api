@@ -2,6 +2,7 @@ import base64
 import os
 import time
 import cv2
+import torch
 
 from django.shortcuts import render
 from django.conf import settings
@@ -84,7 +85,10 @@ class Image(APIView):
         model = configs.set_models(request.data['data']['model'])
 
         param = request.data['data']['parameter']
-        model.prepare(ctx_id=1, nms=param['nms_thresh'])
+        if torch.cuda.is_available():
+            model.prepare(ctx_id=1, nms=param['nms_thresh'])
+        else:
+            model.prepare(ctx_id=-1, nms=param['nms_thresh'])
 
         print('load model time:', time.time()-start)
 
