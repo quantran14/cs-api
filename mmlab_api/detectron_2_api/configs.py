@@ -1,11 +1,11 @@
-
+print('[INFO]Create model for detectron2 ...')
 
 def set_models():
     """
         make a bunch of model'name
         Return a dictionary
     """
-    print('Loading model ... weight ... v.v ...')
+    print('Loading pretrain detectron2 model ... weight ... v.v ...')
     _models = {
         'COCO-Detection_fast_rcnn_R_50_FPN_1x': './detectron_2_api/configs/COCO-Detection/fast_rcnn_R_50_FPN_1x.yaml',
         'COCO-Detection_faster_rcnn_R_50_C4_3x': './detectron_2_api/configs/COCO-Detection/faster_rcnn_R_50_C4_3x.yaml',
