@@ -61,7 +61,7 @@ def return_request(data):
                 "bounding_box": [xmin, ymin, xmax, ymax],
             }   
     """
-    print('data['features']  ', data['features'])
+    print("data['features']  ", data['features'])
     contents = []
 
     # try:
