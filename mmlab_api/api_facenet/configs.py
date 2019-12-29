@@ -4,7 +4,7 @@ import tensorflow
 print('[INFO]Create model for facenet ...')
 
 facenet_keras = tensorflow.keras.models.load_model(
-    './facenet_api/configs/facenet_keras.h5')
+    './api_facenet/configs/facenet_keras.h5')
 
 _models = {
     'facenet_keras': facenet_keras

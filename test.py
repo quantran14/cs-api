@@ -4,8 +4,11 @@ import urllib.parse
 import requests
 import json
 
+import numpy as np
+import cv2
 
-PATH_IMG = 'face.jpg'
+
+PATH_IMG = 'person.jpg'
 
 
 image = open(PATH_IMG, 'rb')
@@ -56,7 +59,7 @@ def facenet():
 
 
 def detectron2():
-    model_name = 'COCO-InstanceSegmentation_mask_rcnn_R_50_C4_3x'
+    model_name = 'COCO-InstanceSegmentation_mask_rcnn_R_50_FPN_3x'
 
     url_feature = 'http://192.168.20.170:3000/detectron2/image/'
     data = {'data': {
@@ -72,13 +75,14 @@ def detectron2():
 
 if __name__ == "__main__":
 
-    try:
-        response = detectron()
-        try:
-            for bbox in response.json()['data']:
-                print(bbox)
-                print()
-        except expression as identifier:
-            pass
-    except:
-        print("FAIL")
+    response = detectron2()
+
+    img = cv2.imread('./person.jpg')
+
+    for bbox in response.json()['data']:
+        mask = base64.decodebytes(bbox['mask'].encode())
+        mask = np.frombuffer(mask, dtype=np.float64)
+        img_mask = np.reshape(mask, img.shape[:2])
+        
+        # b = bbox['bounding_box']
+        # cv2.rectangle(img, (b[0], b[1]), (b[2], b[3]), (255, 0, 0), 2)

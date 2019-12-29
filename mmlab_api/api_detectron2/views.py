@@ -36,11 +36,11 @@ def upload_images(request):
     img_decoded_string = img_encoded.encode()
     img_decoded = base64.decodebytes(img_decoded_string)
 
-    with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
+    with open(os.path.join(settings.MEDIA_ROOT_DETECTRON2, 'image.jpg'), 'wb') as image_result:
         image_result.write(img_decoded)
 
     image = cv2.imread(os.path.join(
-        settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
+        settings.MEDIA_ROOT_DETECTRON2, 'image.jpg'))
 
     data = {
         'image': image,
@@ -73,14 +73,19 @@ def return_request(cfg, data):
 
         boxes = instances_fields.get(
             'pred_boxes') if 'pred_boxes' in instances_fields else None
-        boxes = boxes.tensor.numpy()
+        boxes = boxes.tensor.cpu().numpy()
+
         scores = instances_fields.get(
             'scores') if 'scores' in instances_fields else None
+
         classes = instances_fields.get(
             'pred_classes') if 'pred_classes' in instances_fields else None
+
         masks = instances_fields.get(
             'pred_masks') if 'pred_masks' in instances_fields else None
-        masks = masks.numpy().astype(int)
+
+        masks = masks.cpu().numpy().astype(int)
+
         # labels = _create_text_labels(
         #     classes, scores, metadata)
 
@@ -88,11 +93,12 @@ def return_request(cfg, data):
         # print(num_predicted)
 
         for i in range(0, num_predicted):
+            mask = base64.b64encode(masks[i]).decode('utf-8')
             contents.append({
                 "confidence_score": scores[i].item(),
                 "class": classes[i].item(),
                 "bounding_box": boxes[i].astype(int),
-                "mask": base64.b64encode(masks[i])
+                "mask": mask
             })
 
     return contents
@@ -142,6 +148,5 @@ class Image(APIView):
         print('make predictions time:', time.time()-start)
 
         contents = return_request(cfg, data)
-        print({"success": contents})
 
-        return Response({"success": contents}, status=status.HTTP_202_ACCEPTED)
+        return Response({"data": contents}, status=status.HTTP_202_ACCEPTED)
