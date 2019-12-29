@@ -19,11 +19,11 @@ _models = {
 }
 
 
-def set_models(names):
+def set_model(name):
     """
         Return model according to names
     """
     print('Loading pretrain insightface model ... v.v ...')
-    model = _models[names]
+    model = _models[name]
 
     return model

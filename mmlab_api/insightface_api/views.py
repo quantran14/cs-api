@@ -23,8 +23,7 @@ def upload_images(request):
         save image for processing.
         Return a dict
             {
-                image_path: <>,
-                image: <>
+                image: [numpy array]
             }
     """
 
@@ -82,7 +81,7 @@ class Image(APIView):
         # print(request.data)
 
         start = time.time()
-        model = configs.set_models(request.data['data']['model'])
+        model = configs.set_model(request.data['data']['model'])
 
         param = request.data['data']['parameter']
         if torch.cuda.is_available():

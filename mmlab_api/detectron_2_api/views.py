@@ -28,18 +28,21 @@ def upload_images(request):
         save image for processing.
         Return a dict
             {
-                image_path: <>,
-                image: <>
+                image: [numpy array]
             }
     """
 
-    img = request.data.get('image')
-    file_saving = FileSystemStorage(settings.MEDIA_ROOT_DETECTRON2, settings.MEDIA_URL)
-    file_saving.save(img.name, img)
-    image = cv2.imread(os.path.join(settings.MEDIA_ROOT_DETECTRON2, img.name))
+    img_encoded = request.data['data']['image_encoded']
+    img_decoded_string = img_encoded.encode()
+    img_decoded = base64.decodebytes(img_decoded_string)
+
+    with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
+        image_result.write(img_decoded)
+
+    image = cv2.imread(os.path.join(
+        settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
 
     data = {
-        'image path': settings.MEDIA_ROOT_DETECTRON2,
         'image': image,
     }
 
@@ -117,16 +120,16 @@ def return_request(cfg, data):
 
 
 class Image(APIView):
-    models = configs.set_models()
 
     def post(self, request, *args, **kwargs):
         # get model
-        print(request.data)
-        model = request.data.get('model')
+        # print(request.data)
 
         start = time.time()
+        model = configs.set_models(request.data['data']['model'])
+
         cfg = alt_detectron2.setup_cfg_for_predict(
-            Image.models.get(model), weights_file=None, confidence_threshold=0.5, cpu=True)
+            model, weights_file=None, confidence_threshold=0.7)
         print('load model time:', time.time()-start)
 
         # get image
