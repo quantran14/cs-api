@@ -126,7 +126,7 @@ class Image(APIView):
         # print(request.data)
 
         start = time.time()
-        model = configs.set_models(request.data['data']['model'])
+        model = configs.set_model(request.data['data']['model'])
 
         cfg = alt_detectron2.setup_cfg_for_predict(
             model, weights_file=None, confidence_threshold=0.7)
