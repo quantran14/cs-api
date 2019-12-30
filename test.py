@@ -3,7 +3,6 @@ import base64
 import urllib.parse
 import requests
 import json
-
 import numpy as np
 import cv2
 
@@ -118,3 +117,4 @@ if __name__ == "__main__":
 
         # b = bbox['bounding_box']
         # cv2.rectangle(img, (b[0], b[1]), (b[2], b[3]), (255, 0, 0), 2)
+
