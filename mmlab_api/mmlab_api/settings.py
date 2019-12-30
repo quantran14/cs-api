@@ -40,8 +40,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    # 'detectron_2_api',
-    'insightface_api'
+    'api_detectron2',
+    'api_insightface',
+    'api_facenet',
+    'api_vggface'
 ]
 
 MIDDLEWARE = [
@@ -126,5 +128,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT_DETECTRON2 = os.path.join(BASE_DIR, 'detectron_2_api/media/')
-MEDIA_ROOT_INSIGHTFACE = os.path.join(BASE_DIR, 'insightface_api/media/')
+MEDIA_ROOT_DETECTRON2 = os.path.join(BASE_DIR, 'api_detectron2/media/')
+MEDIA_ROOT_INSIGHTFACE = os.path.join(BASE_DIR, 'api_insightface/media/')
+MEDIA_ROOT_FACENET = os.path.join(BASE_DIR, 'api_facenet/media/')
+MEDIA_ROOT_VGGFACE = os.path.join(BASE_DIR, 'api_vggface/media/')

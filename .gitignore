@@ -266,3 +266,7 @@ pip-selfcheck.json
 # End of https://www.gitignore.io/api/visualstudiocode,python,django,flask,jupyternotebooks,virtualenv
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
+
+.vscode/
+
+test.py

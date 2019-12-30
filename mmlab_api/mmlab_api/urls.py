@@ -19,6 +19,8 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^detectron2/', include('detectron_2_api.urls'))
-    url(r'^insightface/', include('insightface_api.urls'))
+    url(r'^detectron2/', include('api_detectron2.urls')),
+    url(r'^insightface/', include('api_insightface.urls')),
+    url(r'^facenet/', include('api_facenet.urls')),
+    url(r'^vggface/', include('api_vggface.urls'))
 ]
