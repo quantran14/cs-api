@@ -2,7 +2,6 @@ import base64
 import os
 import time
 import cv2
-import torch
 
 from django.shortcuts import render
 from django.conf import settings
@@ -31,12 +30,13 @@ def upload_images(request):
     img_decoded_string = img_encoded.encode()
     img_decoded = base64.decodebytes(img_decoded_string)
 
-    with open(os.path.join(settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'), 'wb') as image_result:
+    with open(os.path.join(settings.MEDIA_ROOT_FACENET, 'image.jpg'), 'wb') as image_result:
         image_result.write(img_decoded)
 
     image = cv2.imread(os.path.join(
-        settings.MEDIA_ROOT_INSIGHTFACE, 'image.jpg'))
-
+        settings.MEDIA_ROOT_FACENET, 'image.jpg'))
+        
+    # resize to the model size
     image = cv2.resize(image, (160, 160), interpolation=cv2.INTER_LINEAR)
     image = image.astype('float32')
     mean, std = image.mean(), image.std()
@@ -55,9 +55,7 @@ def return_request(data):
             data
         Return list[dist1, dist2, ...]:
             dist = {
-                "confidence_score": predict probability,
-                "class": face,
-                "bounding_box": [xmin, ymin, xmax, ymax],
+                "feature": feature
             }   
     """
 
@@ -65,8 +63,6 @@ def return_request(data):
 
     try:
         features = data['features']
-        # num_feature = len(features)
-
         for feature in features:
             contents.append({
                 "feature": feature

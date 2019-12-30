@@ -59,14 +59,12 @@ def return_request(data):
     contents = []
 
     try:
-        bboxs = data['predictions']
-        num_bbox = len(bboxs)
-
-        for bbox in bboxs:
+        boxs = data['predictions']
+        for box in boxs:
             contents.append({
-                "confidence_score": bbox[4],
+                "confidence_score": box[4],
                 "class": 'face',
-                "bounding_box": [bbox[0], bbox[1], bbox[2], bbox[3]]
+                "bounding_box": [box[0], box[1], box[2], box[3]]
             })
     except:
         pass
@@ -85,10 +83,8 @@ class Image(APIView):
 
         param = request.data['data']['parameter']
         if torch.cuda.is_available():
-            print('torch.cuda.is_available(): ', torch.cuda.is_available())
             model.prepare(ctx_id=1, nms=param['nms_thresh'])
         else:
-            print('torch.cuda.is_available(): ', torch.cuda.is_available())
             model.prepare(ctx_id=-1, nms=param['nms_thresh'])
 
         print('load model time:', time.time()-start)

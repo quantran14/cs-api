@@ -10,8 +10,9 @@ class InsightFaceDetector(object):
 
     def make_prediction(self, data):
         image = data['image']
-        predictions, landmark = self.model.detect(
+        predictions, keypoint = self.model.detect(
             image, threshold=data['thresh'], scale=1.0)
+        # TODO: return keypoint
         data.update({'predictions': predictions})
 
         return data
