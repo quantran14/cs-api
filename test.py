@@ -83,8 +83,8 @@ def detectron2():
 def vggface():
     model_name = 'vgg16'
 
-    url_feature = 'http://192.168.20.170:3000/vggface/detect/'
-    # url_feature = 'http://192.168.20.170:3000/vggface/extract/'
+    # url_feature = 'http://192.168.20.170:3000/vggface/detect/'
+    url_feature = 'http://192.168.20.170:3000/vggface/extract/'
     data = {
         'data': {
             'model': model_name,
@@ -101,16 +101,19 @@ def vggface():
 if __name__ == "__main__":
 
     # response = detectron2()
-    response = insightface()
+    # response = insightface()
     # response = facenet()
-    # response = vggface()
+    response = vggface()
 
     img = cv2.imread('./person.jpg')
 
-    for box in response.json()['data']:
-        # print(box)
-        # print()
-        b = box['bounding_box']
+    for key, value in response.json()['data'].items():
+        if key == 'mask':
+            pass
+        else:
+            print(key, '>', value)
+        print()
+        # b = box['bounding_box']
         # print(type(b))
         # mask = base64.decodebytes(box['mask'].encode())
         # mask = np.frombuffer(mask, dtype=np.float64)
@@ -118,6 +121,6 @@ if __name__ == "__main__":
         # cv2.imwrite('a.jpg', img_mask)
 
         # b = bbox['bounding_box']
-        cv2.rectangle(img, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (255, 0, 0), 2)
-        cv2.imshow('a',img)
-        cv2.waitKey()
+        # cv2.rectangle(img, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (255, 0, 0), 2)
+        # cv2.imshow('a',img)
+        # cv2.waitKey()

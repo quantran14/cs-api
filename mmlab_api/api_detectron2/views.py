@@ -149,4 +149,9 @@ class Image(APIView):
 
         contents = return_request(cfg, data)
 
-        return Response({"data": contents}, status=status.HTTP_202_ACCEPTED)
+        json = {
+            "predicts": contents,
+            "process_time": time.time() - start
+        }
+
+        return Response({"data": json}, status=status.HTTP_202_ACCEPTED)
