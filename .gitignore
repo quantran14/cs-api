@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.gitignore.io/api/visualstudiocode,python,django,flask,jupyternotebooks,virtualenv
-# Edit at https://www.gitignore.io/?templates=visualstudiocode,python,django,flask,jupyternotebooks,virtualenv
+# Created by https://www.gitignore.io/api/visualstudiocode,virtualenv,python,jupyternotebooks,flask,django
+# Edit at https://www.gitignore.io/?templates=visualstudiocode,virtualenv,python,jupyternotebooks,flask,django
 
 ### Django ###
 *.log
@@ -236,12 +236,6 @@ ipython_config.py
 ### VirtualEnv ###
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
-[Bb]in
-[Ii]nclude
-[Ll]ib
-[Ll]ib64
-[Ll]ocal
-[Ss]cripts
 pyvenv.cfg
 .env
 .venv
@@ -263,7 +257,7 @@ pip-selfcheck.json
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/visualstudiocode,python,django,flask,jupyternotebooks,virtualenv
+# End of https://www.gitignore.io/api/visualstudiocode,virtualenv,python,jupyternotebooks,flask,django
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 

@@ -61,7 +61,7 @@ def facenet():
 
 
 def detectron2():
-    model_name = 'COCO-InstanceSegmentation_mask_rcnn_R_50_FPN_3x'
+    model_name = 'COCO_InstanceSegmentation_mask_rcnn_R_50_FPN_3x'
 
     url_feature = 'http://192.168.20.170:3000/detectron2/image/'
     data = {
@@ -100,9 +100,8 @@ def vggface():
 
 if __name__ == "__main__":
 
-    response = detectron2()
-    print(len(response.json()['data']))
-    # response = insightface()
+    # response = detectron2()
+    response = insightface()
     # response = facenet()
     # response = vggface()
 
@@ -111,10 +110,14 @@ if __name__ == "__main__":
     for box in response.json()['data']:
         # print(box)
         # print()
-        mask = base64.decodebytes(box['mask'].encode())
-        mask = np.frombuffer(mask, dtype=np.float64)
-        img_mask = np.reshape(mask, img.shape[:2])
-        cv2.imwrite('a.jpg', img_mask)
+        b = box['bounding_box']
+        # print(type(b))
+        # mask = base64.decodebytes(box['mask'].encode())
+        # mask = np.frombuffer(mask, dtype=np.float64)
+        # img_mask = np.reshape(mask, img.shape[:2])
+        # cv2.imwrite('a.jpg', img_mask)
 
         # b = bbox['bounding_box']
-        # cv2.rectangle(img, (b[0], b[1]), (b[2], b[3]), (255, 0, 0), 2)
+        cv2.rectangle(img, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (255, 0, 0), 2)
+        cv2.imshow('a',img)
+        cv2.waitKey()
