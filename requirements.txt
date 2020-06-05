@@ -12,7 +12,7 @@ cycler==0.10.0
 Cython==0.29.14
 decorator==4.4.1
 -e git+https://github.com/facebookresearch/detectron2@04c3dd0e5bc29bd2baa313b2b075b4627dec7c7d#egg=detectron2
-Django==3.0.1
+Django==3.0.7
 django-filter==2.2.0
 djangorestframework==3.11.0
 easydict==1.9
